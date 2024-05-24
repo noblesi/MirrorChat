@@ -89,8 +89,17 @@ public class NetSpawnedObject : NetworkBehaviour
     [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
-    }
+        var atkGenObject = other.GetComponent<GenAtkObject>();
+        if (atkGenObject != null)
+        {
+            _health--;
 
+            if (_health == 0)
+            {
+                NetworkServer.Destroy(this.gameObject);
+            }
+        }
+    }
 
     void RotateLocalPlayer()
     {
