@@ -284,7 +284,7 @@ MonoBehaviour:
   Transform_Player: {fileID: 5412791900657008438}
   _rotationSpeed: 100
   _atkKey: 32
-  Prefab_AtkObject: {fileID: 0}
+  Prefab_AtkObject: {fileID: 6003494680541780875, guid: 6bfe51ca2ed1a2a4ba5a7b92cb48ff92, type: 3}
   Tranfrom_AtkSpawnPos: {fileID: 5118409777024811386}
   _health: 4
 --- !u!1 &5704646795369533241
