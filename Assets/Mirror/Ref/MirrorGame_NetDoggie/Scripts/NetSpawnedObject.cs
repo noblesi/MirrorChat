@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class NetSpawnedObject : MonoBehaviour
+public class NetSpawnedObject : NetworkBehaviour
 {
+
 }
