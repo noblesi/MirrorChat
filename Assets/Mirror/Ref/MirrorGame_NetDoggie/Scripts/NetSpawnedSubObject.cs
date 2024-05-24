@@ -10,4 +10,21 @@ public class NetSpawnedSubObject : NetworkBehaviour
 
     public Rigidbody RigidBody_SubObj;
 
+    public override void OnStartServer()
+    {
+    }
+
+    private void Start()
+    {
+    }
+
+    [Server]
+    private void DestroySelf()
+    {
+    }
+
+    [ServerCallback]
+    private void OnTriggerEnter(Collider other)
+    {
+    }
 }
