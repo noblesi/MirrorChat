@@ -73,7 +73,8 @@ public class NetSpawnedObject : NetworkBehaviour
     [Command]
     void CommandAtk()
     {
-
+        GameObject atkObjectForSpawn = Instantiate(Prefab_AtkObject, Tranfrom_AtkSpawnPos.transform.position, Tranfrom_AtkSpawnPos.transform.rotation);
+        NetworkServer.Spawn(atkObjectForSpawn);
     }
 
     [Command]
