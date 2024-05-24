@@ -47,6 +47,26 @@ public class NetSpawnedObject : NetworkBehaviour
 
     private void CheckIsLocalPlayerOnUpdate()
     {
+        if(isLocalPlayer == false)
+            return;
+
+        // 회전
+        float horizontal = Input.GetAxis("Horizontal");
+        transform.Rotate(0, horizontal * _rotationSpeed * Time.deltaTime, 0);
+
+        // 이동
+        float vertical = Input.GetAxis("Vertical");
+        Vector3 forward = transform.TransformDirection(Vector3.forward);
+        NavAgent_Player.velocity = forward * Mathf.Max(vertical, 0) * NavAgent_Player.speed;
+        Animator_Player.SetBool("Moving", NavAgent_Player.velocity != Vector3.zero);
+
+        // 공격
+        if (Input.GetKeyDown(_atkKey))
+        {
+            CommandAtk();
+        }
+        
+        // RotatePlayer();
     }
 
     // 서버 사이드
