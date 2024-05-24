@@ -75,12 +75,14 @@ public class NetSpawnedObject : NetworkBehaviour
     {
         GameObject atkObjectForSpawn = Instantiate(Prefab_AtkObject, Tranfrom_AtkSpawnPos.transform.position, Tranfrom_AtkSpawnPos.transform.rotation);
         NetworkServer.Spawn(atkObjectForSpawn);
+
+        RpcOnAtk();
     }
 
-    [Command]
+    [ClientRpc]
     void RpcOnAtk()
     {
-
+        Animator_Player.SetTrigger("Atk");
     }
 
     // 클라에서 다음 함수가 실행되지 않도록 ServerCallback을 달아줌
