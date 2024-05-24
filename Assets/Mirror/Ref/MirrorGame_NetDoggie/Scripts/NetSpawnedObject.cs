@@ -66,7 +66,7 @@ public class NetSpawnedObject : NetworkBehaviour
             CommandAtk();
         }
         
-        // RotatePlayer();
+        RotateLocalPlayer();
     }
 
     // 서버 사이드
@@ -88,4 +88,15 @@ public class NetSpawnedObject : NetworkBehaviour
     {
     }
 
+
+    void RotateLocalPlayer()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, 100))
+        {
+            Debug.DrawLine(ray.origin, hit.point);
+            Vector3 lookRotate = new Vector3(hit.point.x, Transform_Player.position.y, hit.point.z);
+            Transform_Player.LookAt(lookRotate);
+        }
+    }
 }
