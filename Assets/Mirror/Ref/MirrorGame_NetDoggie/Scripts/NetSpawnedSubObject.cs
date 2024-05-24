@@ -12,6 +12,7 @@ public class NetSpawnedSubObject : NetworkBehaviour
 
     public override void OnStartServer()
     {
+        Invoke(nameof(DestroySelf), _destroyAfter);
     }
 
     private void Start()
@@ -21,6 +22,7 @@ public class NetSpawnedSubObject : NetworkBehaviour
     [Server]
     private void DestroySelf()
     {
+        NetworkServer.Destroy(this.gameObject);
     }
 
     [ServerCallback]
