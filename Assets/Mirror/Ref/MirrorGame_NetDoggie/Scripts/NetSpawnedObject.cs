@@ -25,6 +25,28 @@ public class NetSpawnedObject : NetworkBehaviour
 
     private void Update()
     {
+        SetHealthBarOnUpdate(_health);
+
+        if(CheckIsFocusedOnUpdate() == false)
+        {
+            return;
+        }
+
+        CheckIsLocalPlayerOnUpdate();
+    }
+
+    private void SetHealthBarOnUpdate(int health)
+    {
+        TextMesh_HealthBar.text = new string('-', health);
+    }
+
+    private bool CheckIsFocusedOnUpdate()
+    {
+        return Application.isFocused;
+    }
+
+    private void CheckIsLocalPlayerOnUpdate()
+    {
     }
 
     // 서버 사이드
