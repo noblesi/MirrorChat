@@ -29,5 +29,6 @@ public class NetSpawnedSubObject : NetworkBehaviour
     [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
+        DestroySelf();
     }
 }
