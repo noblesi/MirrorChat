@@ -17,6 +17,7 @@ public class NetSpawnedSubObject : NetworkBehaviour
 
     private void Start()
     {
+        RigidBody_SubObj.AddForce(transform.forward * _force);
     }
 
     [Server]
