@@ -22,4 +22,28 @@ public class NetSpawnedObject : NetworkBehaviour
 
     [Header("Stats Server")]
     [SyncVar] public int _health = 4;
+
+    private void Update()
+    {
+    }
+
+    // 서버 사이드
+    [Command]
+    void CommandAtk()
+    {
+
+    }
+
+    [Command]
+    void RpcOnAtk()
+    {
+
+    }
+
+    // 클라에서 다음 함수가 실행되지 않도록 ServerCallback을 달아줌
+    [ServerCallback]
+    private void OnTriggerEnter(Collider other)
+    {
+    }
+
 }
