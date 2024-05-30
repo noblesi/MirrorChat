@@ -82,6 +82,14 @@ public class DatabaseUI : MonoBehaviour
 
     public void OnSubmit_SendQuery()
     {
+        if(_connectTestComplete == false)
+        {
+            Text_Log.text = "DB 연결을 먼저 시도해주세요";
+            return;
+        }
+        Text_Log.text = string.Empty;
+
+
         string query = string.IsNullOrWhiteSpace(Input_Query.text) ? "SELECT U_Name FROM user_info"
             : Input_Query.text;
 
