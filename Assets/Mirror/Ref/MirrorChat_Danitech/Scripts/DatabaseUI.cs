@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using MySql.Data.MySqlClient;
 using System;
+using System.Data;
 
 public class DatabaseUI : MonoBehaviour
 {
@@ -19,6 +20,38 @@ public class DatabaseUI : MonoBehaviour
     [SerializeField] string _pwd = "1234";
 
     private static MySqlConnection _dbConnection;
+
+    private string SendQuery(string queryStr, string tableName)
+    {
+        DataSet dataSet = OnSelectRequest(queryStr, tableName);
+
+        return dataSet.GetXml().ToString();
+    }
+
+    public static DataSet OnSelectRequest(string query, string tableName)
+    {
+        try
+        {
+            _dbConnection.Open();
+
+            MySqlCommand sqlCmd = new MySqlCommand();
+            sqlCmd.Connection = _dbConnection;
+            sqlCmd.CommandText = query;
+
+            MySqlDataAdapter sd = new MySqlDataAdapter(sqlCmd);
+            DataSet dataSet = new DataSet();
+            sd.Fill(dataSet, tableName);
+
+            _dbConnection.Close();
+            return dataSet;
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(e.ToString());
+            return null;
+        }
+    }
+
     private bool ConnectTest()
     {
         string connectStr = $"Server={_ip};Database={_dbName};Uid={_uid};Pwd={_pwd};";
@@ -49,6 +82,11 @@ public class DatabaseUI : MonoBehaviour
 
     public void OnSubmit_SendQuery()
     {
+        string query = string.IsNullOrWhiteSpace(Input_Query.text) ? "SELECT U_Name FROM user_info"
+            : Input_Query.text;
+
+        string resultStr = SendQuery(query, "user_info");
+        Text_DBResult.text = resultStr;
     }
 
     public void OnClick_OpenDatabaseUI()
