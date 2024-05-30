@@ -46,8 +46,8 @@ public class DatabaseUI : MonoBehaviour
     {
         if (queryStr.Contains("SELECT"))
         {
-            OnSelectRequest(queryStr, tableName);
-            Text_DBResult.text = resultStr;
+            DataSet dataSet = OnSelectRequest(queryStr, tableName);
+            Text_DBResult.text = DeformatResult(dataSet);
         }
         else
         {
