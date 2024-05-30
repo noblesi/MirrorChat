@@ -21,6 +21,11 @@ public class DatabaseUI : MonoBehaviour
 
     private static MySqlConnection _dbConnection;
 
+    private void Awake()
+    {
+        this.gameObject.SetActive(false);
+    }
+
     private string SendQuery(string queryStr, string tableName)
     {
         DataSet dataSet = OnSelectRequest(queryStr, tableName);
@@ -93,7 +98,7 @@ public class DatabaseUI : MonoBehaviour
         string query = string.IsNullOrWhiteSpace(Input_Query.text) ? "SELECT U_Name FROM user_info"
             : Input_Query.text;
 
-        string resultStr = SendQuery(query, "user_info");
+        string resultStr = SendQuery(@query, "user_info");
         Text_DBResult.text = resultStr;
     }
 
