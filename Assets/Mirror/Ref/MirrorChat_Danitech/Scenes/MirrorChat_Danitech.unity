@@ -312,6 +312,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6402046170998313689, guid: 63ebb126bc7e4d94c9ea1bb68a79c4de, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6402046170998313689, guid: 63ebb126bc7e4d94c9ea1bb68a79c4de, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6402046170998313689, guid: 63ebb126bc7e4d94c9ea1bb68a79c4de, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9183782015344786826, guid: 63ebb126bc7e4d94c9ea1bb68a79c4de, type: 3}
       propertyPath: m_Name
       value: DatabaseUI

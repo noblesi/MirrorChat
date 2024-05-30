@@ -26,11 +26,33 @@ public class DatabaseUI : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    private string SendQuery(string queryStr, string tableName)
+    private string DeformatResult(DataSet dataSet)
     {
-        DataSet dataSet = OnSelectRequest(queryStr, tableName);
+        string resultStr = string.Empty;
+        foreach (DataTable table in dataSet.Tables)
+        {
+            foreach(DataRow row in table.Rows)
+            {
+                foreach(DataColumn column in table.Columns)
+                {
+                    resultStr += $"{column.ColumnName}: {row[column]}\n";
+                }
+            }
+        }
+        return resultStr;
+    }
 
-        return dataSet.GetXml().ToString();
+    private void SendQuery(string queryStr, string tableName)
+    {
+        if (queryStr.Contains("SELECT"))
+        {
+            OnSelectRequest(queryStr, tableName);
+            Text_DBResult.text = resultStr;
+        }
+        else
+        {
+
+        }
     }
 
     public static DataSet OnSelectRequest(string query, string tableName)
@@ -95,11 +117,10 @@ public class DatabaseUI : MonoBehaviour
         Text_Log.text = string.Empty;
 
 
-        string query = string.IsNullOrWhiteSpace(Input_Query.text) ? "SELECT U_Name FROM user_info"
+        string query = string.IsNullOrWhiteSpace(Input_Query.text) ? "SELECT U_Name,U_Password FROM user_info"
             : Input_Query.text;
 
-        string resultStr = SendQuery(@query, "user_info");
-        Text_DBResult.text = resultStr;
+        SendQuery(@query, "user_info");
     }
 
     public void OnClick_OpenDatabaseUI()
