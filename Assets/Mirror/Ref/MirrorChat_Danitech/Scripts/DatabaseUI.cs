@@ -49,9 +49,28 @@ public class DatabaseUI : MonoBehaviour
             DataSet dataSet = OnSelectRequest(queryStr, tableName);
             Text_DBResult.text = DeformatResult(dataSet);
         }
-        else
+        else // 삽입 업데이트
         {
+            Text_DBResult.text = OnInsertOnUpdateRequest(queryStr) ? "성공" : "실패";
+        }
+    }
 
+    public static bool OnInsertOnUpdateRequest(string query)
+    {
+        try
+        {
+            MySqlCommand sqlCommand = new MySqlCommand();
+            sqlCommand.Connection = _dbConnection;
+            sqlCommand.CommandText = query;
+
+            _dbConnection.Open();
+            sqlCommand.ExecuteNonQuery();
+            _dbConnection.Close();
+            return true;
+        }
+        catch
+        {
+            return false;
         }
     }
 
