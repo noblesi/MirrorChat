@@ -11,6 +11,7 @@ public class NetSpawnedObject : NetworkBehaviour
     public Animator Animator_Player;
     public TextMesh TextMesh_HealthBar;
     public Transform Transform_Player;
+    public GameObject GObj_RpcCheck;
 
     [Header("Movement")]
     public float _rotationSpeed = 100.0f;
@@ -23,16 +24,23 @@ public class NetSpawnedObject : NetworkBehaviour
     [Header("Stats Server")]
     [SyncVar] public int _health = 4;
 
+    private void Awake()
+    {
+        GObj_RpcCheck.SetActive(false);
+    }
+
     private void Update()
     {
         SetHealthBarOnUpdate(_health);
+        TestOnUpdateAll();
 
-        if(CheckIsFocusedOnUpdate() == false)
+        if (CheckIsFocusedOnUpdate() == false)
         {
             return;
         }
 
         CheckIsLocalPlayerOnUpdate();
+        OnlyServerOnUpdate();
     }
 
     private void SetHealthBarOnUpdate(int health)
@@ -69,6 +77,48 @@ public class NetSpawnedObject : NetworkBehaviour
         RotateLocalPlayer();
     }
 
+    void TestOnUpdateAll()
+    {
+        // 아무 클라에서나 눌러도 netId에만 영향을 주는 케이스 - 아무 클라에서 누르면 2번 클라만 반응
+
+        if (this.netId == 1)
+        {
+            if (Input.GetKeyDown(KeyCode.F1))
+            {
+                CommandFromServer();
+            }
+        }
+    }
+
+    [Command(requiresAuthority = false)]
+    void CommandFromServer()
+    {
+        OnlyFromCommand();
+    }
+
+    [ClientRpc]
+    void OnlyFromCommand()
+    {
+        StartCoroutine(CoStartRpcEffect());
+    }
+
+
+    [Server]
+    void OnlyServerOnUpdate()
+    {
+        // 서버에서만 브로드 캐스팅 하는 경우 - 모든 클라 불림
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            OnlyFromServer();
+        }
+    }
+
+    [ClientRpc]
+    void OnlyFromServer()
+    {
+        StartCoroutine(CoStartRpcEffect());
+    }
+
     // 서버 사이드
     [Command]
     void CommandAtk()
@@ -83,6 +133,14 @@ public class NetSpawnedObject : NetworkBehaviour
     void RpcOnAtk()
     {
         Animator_Player.SetTrigger("Atk");
+        StartCoroutine(CoStartRpcEffect());
+    }
+
+    IEnumerator CoStartRpcEffect()
+    {
+        GObj_RpcCheck.SetActive(true);
+        yield return new WaitForSeconds(2.0f);
+        GObj_RpcCheck.SetActive(false);
     }
 
     // 클라에서 다음 함수가 실행되지 않도록 ServerCallback을 달아줌
